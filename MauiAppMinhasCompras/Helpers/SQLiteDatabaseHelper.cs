@@ -13,6 +13,8 @@ namespace MauiAppMinhasCompras.Helpers
             _conn.CreateTableAsync<Produto>().Wait();
         }
 
+        //inserindo CRUD
+
         public Task<int> Insert(Produto p) 
         {
             return _conn.InsertAsync(p);

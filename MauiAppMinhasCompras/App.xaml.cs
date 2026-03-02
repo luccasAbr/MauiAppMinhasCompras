@@ -4,6 +4,8 @@
     {
         public App()
         {
+            //atualizando breviamente a página inicial
+
             InitializeComponent();
 
             //MainPage = new AppShell();
