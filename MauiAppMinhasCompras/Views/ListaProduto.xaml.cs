@@ -15,7 +15,9 @@ public partial class ListaProduto : ContentPage
 
 	protected async override void OnAppearing()
 	{
-		List<Produto> tmp = await App.Db.GetAll();
+        lista.Clear();
+
+        List<Produto> tmp = await App.Db.GetAll();
 
 		tmp.ForEach(i => lista.Add(i));
 	}
@@ -53,8 +55,29 @@ public partial class ListaProduto : ContentPage
 		DisplayAlert("Total dos produtos", msg, "OK");
     }
 
-    private void MenuItem_Clicked(object sender, EventArgs e)
+    private async void MenuItem_Clicked(object sender, EventArgs e)
     {
+		try
+		{
+			MenuItem mi = (MenuItem)sender;
 
+			Produto produtoSelecionado = (Produto)mi.BindingContext;
+
+			bool confirm = await DisplayAlert("Confirmação", $"Deseja remover {produtoSelecionado.Descricao}?", "Sim", "Não");
+
+			if (confirm)
+			{
+				await App.Db.Delete(produtoSelecionado.Id);
+
+				lista.Remove(produtoSelecionado);
+
+				await DisplayAlert("Sucesso!", "Produto removido!", "OK");
+			}
+		}
+
+		catch (Exception ex) 
+		{
+			await DisplayAlert("Ops!", ex.Message, "OK");
+		}
     }
 }
