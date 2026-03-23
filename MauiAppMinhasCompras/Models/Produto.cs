@@ -4,13 +4,28 @@ namespace MauiAppMinhasCompras.Models
 {
     public class Produto
     {
+        string _descricao;
+
 
         //identificadores únicos
         [PrimaryKey, AutoIncrement]
 
         //atributos de produtos
         public int Id { get; set; }
-        public string Descricao { get; set; }
+       
+        //método para evitar descrições vazias
+        public string Descricao {
+            get => _descricao; 
+            set
+            {
+                if(value == null)
+                {
+                    throw new Exception("Por favor, preencha a descrição");
+                }
+
+                _descricao = value;
+            } 
+        }
         public double Quantidade {  get; set; }
         public double Preco {  get; set; }
 
