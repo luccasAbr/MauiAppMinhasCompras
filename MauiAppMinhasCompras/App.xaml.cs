@@ -30,6 +30,9 @@ namespace MauiAppMinhasCompras
         {
             InitializeComponent();
 
+            //alterando estrutura geral do app para pr-BR (linguagem, moeda, data, etc)
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("pt-BR");
+
             //MainPage = new AppShell();
             MainPage = new NavigationPage(new Views.ListaProduto());
         }
