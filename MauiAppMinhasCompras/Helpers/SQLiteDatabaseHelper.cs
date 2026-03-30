@@ -16,15 +16,26 @@ namespace MauiAppMinhasCompras.Helpers
 
         //inserindo CRUD
 
+        public Task<List<Produto>> GetRecentes()
+        {
+            return _conn.Table<Produto>()
+                .OrderByDescending(p => p.DataCriacao)
+                .Take(20)
+                .ToListAsync();
+        }
+
         //insert
         public Task<int> Insert(Produto p) 
         {
+            p.DataCriacao = DateTime.Now;
             return _conn.InsertAsync(p);
         }
 
         //update
         public Task<List<Produto>> Update(Produto p) 
         {
+            p.DataCriacao = DateTime.Now;
+
             string sql = "UPDATE Produto SET Descricao=?, Quantidade=?, Preco=? WHERE Id=?";
 
             return _conn.QueryAsync<Produto>(
@@ -50,6 +61,17 @@ namespace MauiAppMinhasCompras.Helpers
             string sql = "SELECT * FROM Produto WHERE descricao LIKE '%" + q + "%'";
 
             return _conn.QueryAsync<Produto>(sql);
+        }
+
+        public Task<List<Produto>> SearchByDate(DateTime data)
+        {
+            // Criamos o início e o fim do dia para filtrar no banco
+            DateTime inicioDia = data.Date;
+            DateTime fimDia = data.Date.AddDays(1).AddTicks(-1);
+
+            return _conn.Table<Produto>()
+                        .Where(p => p.DataCriacao >= inicioDia && p.DataCriacao <= fimDia)
+                        .ToListAsync();
         }
     }
 }

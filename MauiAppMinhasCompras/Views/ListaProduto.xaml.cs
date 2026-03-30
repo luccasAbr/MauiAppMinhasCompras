@@ -1,5 +1,6 @@
 using MauiAppMinhasCompras.Models;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace MauiAppMinhasCompras.Views;
 
@@ -34,7 +35,6 @@ public partial class ListaProduto : ContentPage
 		try
 		{
 			Navigation.PushAsync(new Views.NovoProduto());
-
 		}
 		catch (Exception ex)
 		{
@@ -136,5 +136,17 @@ public partial class ListaProduto : ContentPage
 			lst_produtos.IsRefreshing = false;
 		}
 
+    }
+
+    private void ToolbarItem_Clicked_2(object sender, EventArgs e)
+    {
+        try
+        {
+            Navigation.PushAsync(new Views.Relatorio());
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Ops!", ex.Message, "OK");
+        }
     }
 }
